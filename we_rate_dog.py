@@ -61,3 +61,4 @@ with open('tweet_json.txt') as file:
         df2_list.append(json_data)
 df_3 = pd.DataFrame(df2_list, columns = ['id_str', 'created_at', 
                                          'retweet_count', 'favorite_count'])
+
