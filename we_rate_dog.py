@@ -62,3 +62,39 @@ with open('tweet_json.txt') as file:
 df_3 = pd.DataFrame(df2_list, columns = ['id_str', 'created_at', 
                                          'retweet_count', 'favorite_count'])
 
+#### Accessing Data
+df_1.head()
+#1 remove unesecary cols
+df_1.sample(20)
+#2 remove rows with retweet
+#3 remove all "tweets" that are "replies".
+df_1.tail()
+df_1.shape
+df_1.columns
+df_1.info()
+df_1.timestamp.info() 
+#10 chnage timestamp dtype to datetime
+#5 data types , tweet_id,denominator
+df_1.tweet_id.duplicated().sum()
+df_1['source'].unique()
+#4 extract content in source col
+sum(df_1.duplicated())
+# examine rating denominator
+df_1[df_1.rating_denominator != 10]
+#6 no rating in tweet 810984652412424192
+#7 some tweeets with wrong ratings
+#8 tweets with group ratings
+# examine rating numerator
+df_1[df_1.rating_numerator < 10]
+#9 tweets with decimal rating not properly extracted
+df_1.name.unique()
+#11 convert dognames to lower case
+df_1.columns
+# merge dog stage columns
+
+df_2.head()
+df_2.tail()
+df_2.shape
+df_2.columns
+df_2.info()
+#extract dog_breed from p_tables
