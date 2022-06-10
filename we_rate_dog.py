@@ -64,31 +64,31 @@ df_3 = pd.DataFrame(df2_list, columns = ['id_str', 'created_at',
 
 #### Accessing Data
 df_1.head()
-#1 remove unesecary cols
+#1 remove unesecary cols, 11
 df_1.sample(20)
-#2 remove rows with retweet
-#3 remove all "tweets" that are "replies".
+#2 remove rows with retweet 1
+#3 remove all "tweets" that are "replies". 2
 df_1.tail()
 df_1.shape
 df_1.columns
 df_1.info()
 df_1.timestamp.info() 
 #10 chnage timestamp dtype to datetime
-#5 data types , tweet_id,denominator
+#5 data types , tweet_id,denominator, 10
 df_1.tweet_id.duplicated().sum()
 df_1['source'].unique()
-#4 extract content in source col
+#4 extract content in source col, 3
 sum(df_1.duplicated())
 # examine rating denominator
 df_1[df_1.rating_denominator != 10]
-#6 no rating in tweet 810984652412424192
-#7 some tweeets with wrong ratings
-#8 tweets with group ratings
+#6 no rating in tweet 810984652412424192, 5
+#7 some tweeets with wrong ratings,6
+#8 tweets with group ratings, 7
 # examine rating numerator
 df_1[df_1.rating_numerator < 10]
-#9 tweets with decimal rating not properly extracted
+#9 tweets with decimal rating not properly extracted, 8
 df_1.name.unique()
-#11 convert dognames to lower case
+#11 convert dognames to lower case, 9
 df_1.columns
 # merge dog stage columns
 
@@ -98,3 +98,102 @@ df_2.shape
 df_2.columns
 df_2.info()
 #extract dog_breed from p_tables
+
+
+#### Clean Data
+# code to duplicate tables before cleaning
+df_1_copy = df_1.copy()
+df_2_copy = df_2.copy()
+df_3_copy = df_3.copy()
+
+#1 remove rows with retweet
+df_1 = df_1[df_1['retweeted_status_id'].isnull()]
+
+#2 remove all "tweets" that are "replies".
+df_1 = df_1[df_1['in_reply_to_status_id'].isnull()]
+
+#3 extract content in Source column
+df_1['tweet_source'] = df_1.source.apply(lambda x: BeautifulSoup(x).find('a').contents[0])
+df_1.tweet_source.unique()
+
+#4 chnage timestamp dtype to datetime
+df_1['date_time'] = pd.to_datetime(df_1.timestamp)
+#df_1.date_time.dt.year
+
+#5 no rating in tweet 810984652412424192, drop row
+df_1 = df_1[df_1.tweet_id != 810984652412424192]
+
+#6 Correct rating for tweets with wrong rating
+def rating_change(t_id,num,den):
+    df_1.rating_numerator = np.where(df_1.tweet_id == t_id, num, df_1.rating_numerator)
+    df_1.rating_denominator = np.where(df_1.tweet_id == t_id, den, df_1.rating_denominator)
+rating_change(666287406224695296, 9, 10)
+rating_change(740373189193256964, 14, 10)
+rating_change(682962037429899265, 10, 10)
+rating_change(722974582966214656, 13, 10)
+rating_change(716439118184652801, 11, 10)
+## test
+df_1[df_1.rating_denominator != 10]
+
+#7 find average rating for tweets with group ratings
+df_1.rating_numerator = np.where(df_1.rating_denominator != 10, 
+                                 df_1.rating_numerator/(df_1.rating_denominator/10), 
+                                 df_1.rating_numerator)
+
+df_1.rating_denominator = np.where(df_1.rating_denominator != 10, 10, 
+                                 df_1.rating_denominator)
+# then test
+df_1[df_1.rating_denominator != 10]
+
+
+#8 tweets with decimal rating not properly extracted
+df_1['text_dec'] = df_1.text.str.extract('(\d\.\d+)+[/]10')
+df_1[~df_1['text_dec'].isnull()]
+rating_change(883482846933004288, 13.5, 10)
+rating_change(786709082849828864, 9.75, 10)
+rating_change(778027034220126208, 11.27, 10)
+rating_change(680494726643068929, 11.26, 10)
+
+#9 dognames in lower case
+df_1.name = df_1.name.str.lower()
+
+#10 data types , tweet_id,denominator
+
+#11 remove unesecary cols
+
+####### Tidy - merge dog stage columns
+df_1.doggo.replace('None', '', inplace=True)
+df_1.floofer.replace('None', '', inplace=True)
+df_1.pupper.replace('None', '', inplace=True)
+df_1.puppo.replace('None', '', inplace=True)
+
+df_1['dog_stage'] = df_1.doggo + df_1.floofer + df_1.pupper + df_1.puppo
+
+df_1.dog_stage.value_counts()
+
+df_1.dog_stage.replace('doggopupper', 'doggo, pupper', inplace=True)
+df_1.dog_stage.replace('doggopuppo', 'doggo, puppo', inplace=True)
+df_1.dog_stage.replace('doggofloofer', 'doggo, floofer', inplace=True)
+df_1.dog_stage.replace('', np.nan, inplace=True)
+
+df_1.dog_stage.value_counts()
+
+#####----#extract dog_breed from p_tables------------------------------
+
+df_2 = df_2[(df_2.p1_dog == True) | (df_2.p2_dog == True) | (df_2.p3_dog == True)]
+
+df_2a = df_2[(df_2.p1_dog == True)]
+df_2b = df_2[(df_2.p1_dog == False) & (df_2.p2_dog == True)]
+df_2c = df_2[(df_2.p1_dog == False) & (df_2.p2_dog == False) & (df_2.p3_dog == True)]
+
+df_2a.drop(['p1_dog', 'p2','p2_conf', 'p2_dog', 'p3', 'p3_conf', 'p3_dog'], inplace=True, axis=1)
+df_2a.rename(columns={'p1': 'dog_breed', 'p1_conf': 'p_conf'}, inplace = True)
+
+df_2b.drop(['p2_dog', 'p1','p1_conf', 'p1_dog', 'p3', 'p3_conf', 'p3_dog'], inplace=True, axis=1)
+df_2b.rename(columns={'p2': 'dog_breed', 'p2_conf': 'p_conf'}, inplace = True)
+
+df_2c.drop(['p3_dog', 'p1','p1_conf', 'p1_dog', 'p2', 'p2_conf', 'p2_dog'], inplace=True, axis=1)
+df_2c.rename(columns={'p3': 'dog_breed', 'p3_conf': 'p_conf'}, inplace = True)
+
+df_2 = df_2a.append(df_2b)
+df_2 = df_2.append(df_2c)
