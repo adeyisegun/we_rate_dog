@@ -64,17 +64,17 @@ df_3 = pd.DataFrame(df2_list, columns = ['id_str', 'created_at',
 
 #### Accessing Data
 df_1.head()
-#1 remove unesecary cols, 11
+#1 remove unesecary cols, 10
 df_1.sample(20)
-#2 remove rows with retweet 1
-#3 remove all "tweets" that are "replies". 2
+#2 remove rows with retweet, 1
+#3 remove all "tweets" that are "replies", 2
 df_1.tail()
 df_1.shape
 df_1.columns
 df_1.info()
 df_1.timestamp.info() 
 #10 chnage timestamp dtype to datetime
-#5 data types , tweet_id,denominator, 10
+#5 data types , tweet_id,denominator, 11
 df_1.tweet_id.duplicated().sum()
 df_1['source'].unique()
 #4 extract content in source col, 3
@@ -117,7 +117,7 @@ df_1['tweet_source'] = df_1.source.apply(lambda x: BeautifulSoup(x).find('a').co
 df_1.tweet_source.unique()
 
 #4 chnage timestamp dtype to datetime
-df_1['date_time'] = pd.to_datetime(df_1.timestamp)
+df_1['timestamp'] = pd.to_datetime(df_1.timestamp)
 #df_1.date_time.dt.year
 
 #5 no rating in tweet 810984652412424192, drop row
@@ -157,9 +157,19 @@ rating_change(680494726643068929, 11.26, 10)
 #9 dognames in lower case
 df_1.name = df_1.name.str.lower()
 
-#10 data types , tweet_id,denominator
+#10 remove unesecary cols
+rmv_cols = ['in_reply_to_status_id', 'in_reply_to_user_id', 'retweeted_status_id',
+            'retweeted_status_user_id', 'retweeted_status_timestamp', 'doggo', 'floofer',
+            'pupper','puppo', 'text_dec','source']
+df_1.drop(rmv_cols, axis=1, inplace=True)
 
-#11 remove unesecary cols
+#11 data types source, tweet_id,denominator, stage
+df_1['tweet_id'] = df_1['tweet_id'].astype(str)
+df_1['rating_denominator'] = df_1['rating_denominator'].astype(float)
+df_1['tweet_source'] = df_1['tweet_source'].astype('category')
+df_1['dog_stage'] = df_1['dog_stage'].astype('category')
+df_2['tweet_id'] = df_2['tweet_id'].astype(str)
+
 
 ####### Tidy - merge dog stage columns
 df_1.doggo.replace('None', '', inplace=True)
