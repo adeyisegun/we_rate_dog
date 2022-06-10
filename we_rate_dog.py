@@ -192,16 +192,19 @@ df_1.dog_stage.value_counts()
 
 df_2 = df_2[(df_2.p1_dog == True) | (df_2.p2_dog == True) | (df_2.p3_dog == True)]
 
-df_2a = df_2[(df_2.p1_dog == True)]
-df_2b = df_2[(df_2.p1_dog == False) & (df_2.p2_dog == True)]
-df_2c = df_2[(df_2.p1_dog == False) & (df_2.p2_dog == False) & (df_2.p3_dog == True)]
 
+
+
+
+df_2a = df_2[(df_2.p1_dog == True)]
 df_2a.drop(['p1_dog', 'p2','p2_conf', 'p2_dog', 'p3', 'p3_conf', 'p3_dog'], inplace=True, axis=1)
 df_2a.rename(columns={'p1': 'dog_breed', 'p1_conf': 'p_conf'}, inplace = True)
 
+df_2b = df_2[(df_2.p1_dog == False) & (df_2.p2_dog == True)]
 df_2b.drop(['p2_dog', 'p1','p1_conf', 'p1_dog', 'p3', 'p3_conf', 'p3_dog'], inplace=True, axis=1)
 df_2b.rename(columns={'p2': 'dog_breed', 'p2_conf': 'p_conf'}, inplace = True)
 
+df_2c = df_2[(df_2.p1_dog == False) & (df_2.p2_dog == False) & (df_2.p3_dog == True)]
 df_2c.drop(['p3_dog', 'p1','p1_conf', 'p1_dog', 'p2', 'p2_conf', 'p2_dog'], inplace=True, axis=1)
 df_2c.rename(columns={'p3': 'dog_breed', 'p3_conf': 'p_conf'}, inplace = True)
 
