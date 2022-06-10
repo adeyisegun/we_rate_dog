@@ -72,7 +72,7 @@ df_1.tail()
 df_1.shape
 df_1.columns
 df_1.info()
-df_1.timestamp.info() 
+df_1.timestamp.info()
 #10 chnage timestamp dtype to datetime
 #5 data types , tweet_id,denominator, 11
 df_1.tweet_id.duplicated().sum()
@@ -207,3 +207,7 @@ df_2c.rename(columns={'p3': 'dog_breed', 'p3_conf': 'p_conf'}, inplace = True)
 
 df_2 = df_2a.append(df_2b)
 df_2 = df_2.append(df_2c)
+
+'''
+sddjiwjiw
+'''
