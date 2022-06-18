@@ -159,15 +159,13 @@ df_1.name = df_1.name.str.lower()
 
 #10 remove unesecary cols
 rmv_cols = ['in_reply_to_status_id', 'in_reply_to_user_id', 'retweeted_status_id',
-            'retweeted_status_user_id', 'retweeted_status_timestamp', 'doggo', 'floofer',
-            'pupper','puppo', 'text_dec','source']
+            'retweeted_status_user_id', 'retweeted_status_timestamp', 'text_dec','source']
 df_1.drop(rmv_cols, axis=1, inplace=True)
 
 #11 data types source, tweet_id,denominator, stage
 df_1['tweet_id'] = df_1['tweet_id'].astype(str)
 df_1['rating_denominator'] = df_1['rating_denominator'].astype(float)
 df_1['tweet_source'] = df_1['tweet_source'].astype('category')
-df_1['dog_stage'] = df_1['dog_stage'].astype('category')
 df_2['tweet_id'] = df_2['tweet_id'].astype(str)
 
 
@@ -187,12 +185,11 @@ df_1.dog_stage.replace('doggofloofer', 'doggo, floofer', inplace=True)
 df_1.dog_stage.replace('', np.nan, inplace=True)
 
 df_1.dog_stage.value_counts()
+df_1['dog_stage'] = df_1['dog_stage'].astype('category')
 
 #####----#extract dog_breed from p_tables------------------------------
 
 df_2 = df_2[(df_2.p1_dog == True) | (df_2.p2_dog == True) | (df_2.p3_dog == True)]
-
-
 
 
 
@@ -214,3 +211,13 @@ df_2 = df_2.append(df_2c)
 '''
 sddjiwjiw
 '''
+df_master = df_1.merge(df_2, left_on='tweet_id', right_on='tweet_id', how='left')
+df_master = df_master.merge(df_3, left_on='tweet_id', right_on='id_str', how='inner')
+
+rmv_cols = ['doggo','floofer','pupper', 'puppo', 'id_str', 'created_at']
+df_master.drop(rmv_cols, axis=1, inplace=True)
+
+df_master.drop('tweet_source', axis=1, inplace=True)
+
+
+df_master.nlargest(5, 'rating_numerator')[['name','rating_numerator','dog_breed']]
