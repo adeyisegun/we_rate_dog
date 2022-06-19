@@ -220,4 +220,13 @@ df_master.drop(rmv_cols, axis=1, inplace=True)
 df_master.drop('tweet_source', axis=1, inplace=True)
 
 
-df_master.nlargest(5, 'rating_numerator')[['name','rating_numerator','dog_breed']]
+df_master.nlargest(20, 'rating_numerator')[['name','rating_numerator','dog_breed']]
+
+df.groupby('color')['quality'].mean()
+
+
+x = df_master.groupby('dog_breed')['rating_numerator'].mean().to_frame('avg_rating')
+y = df_master.groupby('dog_breed')['dog_breed'].count().nlargest(5).to_frame('count_of_dog_breed')
+x.merge(y, left_index = True, right_index = True, how='inner')
+
+
