@@ -14601,7 +14601,7 @@ Data was gathered/collected from three different sources:</p>
 <p><strong>WeRateDogs Twitter archive</strong> - This data was downloaded <a href="https://d17h27t6h515a5.cloudfront.net/topher/2017/August/59a4e958_twitter-archive-enhanced/twitter-archive-enhanced.csv">here</a> and loaded manually.</p>
 <p><strong>Tweet image predictions</strong> - This data was downloaded <a href="https://d17h27t6h515a5.cloudfront.net/topher/2017/August/599fd2ad_image-predictions/image-predictions.tsv">here</a> and loaded programmatically using the Requests library.</p>
 <p><strong>Additional data from the Twitter API</strong> - Using the tweet IDs in the WeRateDogs Twitter archive, we query the Twitter API and gather each tweet's retweet count and favorite ("like") count.</p>
-<p>After gathering all three pieces of data, we asses them visually and programmatically for quality and tidiness issues. 12 quality issues was detected and 3 tidinees issues was detected.</p>
+<p>After gathering all three pieces of data, we asses them visually and programmatically for quality and tidiness issues. 13 quality issues was detected and 2 tidinees issues was detected.</p>
 
 </div>
 </div>
@@ -14625,12 +14625,12 @@ Data was gathered/collected from three different sources:</p>
 <li>Tweets with decimal rating not properly extracted</li>
 <li>Dognames in upper and lower case</li>
 <li>Table contains columns not useful for analysis</li>
-<li>Wrong data types for tweet_id,rating_denominator,tweet_source, and dog_stage</li>
+<li>Wrong data types for tweet_id, rating_denominator, tweet_source, and dog_stage</li>
 </ol>
 <p><code>image predictions</code> Table</p>
 <ol>
 <li>Wrong data types for tweet_id</li>
-<li>Extract Dog Breed from image predictions </li>
+<li>One variable in three prediction columns (Dog Breed) </li>
 </ol>
 
 </div>
@@ -14659,7 +14659,7 @@ Data was gathered/collected from three different sources:</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>These issues were cleaned successfully and a copy of the original data was made befoe the cleaning. Define-code-test framework was used and documented during the the cleaning. 
+<p>These issues were cleaned successfully and a copy of the original data was made before the cleaning. Define-code-test framework was used and documented during the cleaning. 
 Finally a tidy master dataset (all pieces of data was merged) was created.</p>
 
 </div>
