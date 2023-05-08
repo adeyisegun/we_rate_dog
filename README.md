@@ -6,7 +6,7 @@ Gather data from multiple sources, including the provided tweet archive from WeR
 Assess the quality and tidiness of the collected data.
 Clean the data by addressing issues identified during the assessment process.
 Document the entire data wrangling process in a Jupyter Notebook.
-Perform analyses and visualizations using Python and its libraries, as well as SQL, to gain insights into the WeRateDogs Twitter archive.
+Perform analyses and visualizations using Python and its libraries, to gain insights into the WeRateDogs Twitter archive.
 Dataset Overview:
 The dataset used for this project is the WeRateDogs tweet archive, comprising over 5000 tweets as of August 1, 2017. The archive contains essential tweet data such as tweet ID, timestamp, and text. The tweets provide ratings for dogs, often accompanied by humorous comments. The ratings consistently have a denominator of 10, while the numerators are usually higher than 10. The Twitter archive was made exclusively available by WeRateDogs for this project, and it serves as the primary data source for analysis and visualization.
 
