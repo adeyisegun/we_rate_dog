@@ -1,5 +1,5 @@
 Project Summary: Data Wrangling and Analysis of @dog_rates Twitter Archive
-The project focuses on data wrangling, analysis, and visualization of the tweet archive from the popular Twitter account @dog_rates, also known as WeRateDogs. This account is known for its humorous dog ratings, with ratings typically having a denominator of 10 and numerators often exceeding 10. The project utilizes Python and its libraries, along with SQL, to gather data from various sources, assess its quality and tidiness, and perform data wrangling.
+The project focuses on data wrangling, analysis, and visualization of the tweet archive from the popular Twitter account @dog_rates, also known as WeRateDogs. This account is known for its humorous dog ratings, with ratings typically having a denominator of 10 and numerators often exceeding 10. The project utilizes Python and its libraries, to gather data from various sources, assess its quality and tidiness, and perform data wrangling.
 
 Project Objectives:
 Gather data from multiple sources, including the provided tweet archive from WeRateDogs.
